@@ -1,0 +1,33 @@
+name: Check HTML and CSS
+
+on:
+  push:
+    branches:
+      - main  # Run the action on push to the main branch
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository content
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Install Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      # Validate HTML using HTMLHint
+      - name: Validate HTML
+        run: |
+          npm install htmlhint -g
+          htmlhint "**/*.html"
+
+      # Validate CSS using Stylelint
+      - name: Validate CSS
+        run: |
+          npm install stylelint stylelint-config-standard -g
+          stylelint "**/*.css"
